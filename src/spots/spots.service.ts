@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Spot } from '@prisma/client';
 import { CreateSpotDto } from './dto/create-spot.dto';
 import { UpdateSpotDto } from './dto/update-spot.dto';
-
 @Injectable()
 export class SpotsService {
-  create(createSpotDto: CreateSpotDto) {
-    return 'This action adds a new spot';
+
+  constructor(private prisma: PrismaService){};
+
+
+  async create(createSpotDto: CreateSpotDto): Promise<Spot>{
+    return this.prisma.spot.create({
+      data: createSpotDto,
+    });  
   }
 
-  findAll() {
-    return `This action returns all spots`;
-  }
+ async findAll(): Promise<Spot[]> {
+  return this.prisma.spot.findMany();
+}
 
-  findOne(id: number) {
-    return `This action returns a #${id} spot`;
-  }
+  async findOne(id: number) : Promise<Spot> {
+    return this.prisma.spot.findUnique({
+      where: {
+        id: id,
+      },
+    });  }
 
-  update(id: number, updateSpotDto: UpdateSpotDto) {
-    return `This action updates a #${id} spot`;
-  }
+  async update(id: number, updateSpotDto: UpdateSpotDto) {
+    return this.prisma.spot.findUnique({
+      where: {
+        id: id,
+      },
+    });  }
 
-  remove(id: number) {
-    return `This action removes a #${id} spot`;
+  async remove(id: number): Promise<Spot> {
+    return this.prisma.spot.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }

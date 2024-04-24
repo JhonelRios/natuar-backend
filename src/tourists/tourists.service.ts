@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTouristDto } from './dto/create-tourist.dto';
 import { UpdateTouristDto } from './dto/update-tourist.dto';
-
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Tourist } from '@prisma/client';
 @Injectable()
 export class TouristsService {
-  create(createTouristDto: CreateTouristDto) {
-    return 'This action adds a new tourist';
+
+  constructor(private prisma: PrismaService){};
+
+  async create(createTouristDto: CreateTouristDto): Promise<Tourist>{
+    return this.prisma.tourist.create({
+      data: createTouristDto,
+    });  
   }
 
-  findAll() {
-    return `This action returns all tourists`;
-  }
+ async findAll(): Promise<Tourist[]> {
+  return this.prisma.tourist.findMany();
+}
 
-  findOne(id: number) {
-    return `This action returns a #${id} tourist`;
-  }
+  async findOne(id: number) : Promise<Tourist> {
+    return this.prisma.tourist.findUnique({
+      where: {
+        id: id,
+      },
+    });  }
 
-  update(id: number, updateTouristDto: UpdateTouristDto) {
-    return `This action updates a #${id} tourist`;
-  }
+  async update(id: number, updateTouristDto: UpdateTouristDto) {
+    return this.prisma.tourist.findUnique({
+      where: {
+        id: id,
+      },
+    });  }
 
-  remove(id: number) {
-    return `This action removes a #${id} tourist`;
+  async remove(id: number): Promise<Tourist> {
+    return this.prisma.tourist.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }
