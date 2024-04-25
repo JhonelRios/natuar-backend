@@ -10,24 +10,24 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://natuar-db_owner:K9gzAywH2dfU@ep-floral-tooth-a5eqkqjg.us-east-2.aws.neon.tech/natuar-db?sslmode=require"
+  url      = env("DATABASE_URL")
 }
 
 // Definición del modelo para la tabla "tourists"
 model Tourist {
-  id           Int       @default(autoincrement()) @id
-  name         String
-  password     String
-  email        String    @unique
-  created_date DateTime  @default(now())
-  updated_date DateTime  @updatedAt
+  id               Int              @id @default(autoincrement())
+  name             String
+  password         String
+  email            String           @unique
+  created_date     DateTime         @default(now())
+  updated_date     DateTime         @updatedAt
   favorite_animals FavoriteAnimal[]
-  seen_animals    SeenAnimal[]
+  seen_animals     SeenAnimal[]
 }
 
 // Definición del modelo para la tabla "favorite_animals"
 model FavoriteAnimal {
-  id            Int      @default(autoincrement()) @id
+  id            Int      @id @default(autoincrement())
   creation_date DateTime @default(now())
   tourist       Tourist  @relation(fields: [touristId], references: [id])
   touristId     Int
@@ -37,7 +37,7 @@ model FavoriteAnimal {
 
 // Definición del modelo para la tabla "seen_animals"
 model SeenAnimal {
-  id            Int      @default(autoincrement()) @id
+  id            Int      @id @default(autoincrement())
   creation_date DateTime @default(now())
   tourist       Tourist  @relation(fields: [touristId], references: [id])
   touristId     Int
@@ -47,13 +47,13 @@ model SeenAnimal {
 
 // Definición del modelo para la tabla "animals"
 model Animal {
-  id          Int      @default(autoincrement()) @id
-  name        String
-  description String
-  in_danger   Boolean
-  images      String[]
-  spot        Spot?    @relation(fields: [spotId], references: [id])
-  spotId      Int?
+  id               Int              @id @default(autoincrement())
+  name             String
+  description      String
+  in_danger        Boolean
+  images           String[]
+  spot             Spot?            @relation(fields: [spotId], references: [id])
+  spotId           Int?
   // Agrega el campo de relación inversa en el modelo Animal
   favorite_animals FavoriteAnimal[]
   seen_animals     SeenAnimal[]
@@ -61,7 +61,7 @@ model Animal {
 
 // Definición del modelo para la tabla "spots"
 model Spot {
-  id          Int      @default(autoincrement()) @id
+  id          Int      @id @default(autoincrement())
   name        String
   description String
   latitude    Float

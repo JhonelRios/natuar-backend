@@ -1,5 +1,5 @@
 export class CreateTouristDto {
-    name: string;
+  name: string;
   password: string;
   email: string;
 }

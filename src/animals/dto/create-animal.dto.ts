@@ -1,7 +1,7 @@
 export class CreateAnimalDto {
   name: string;
   description: string;
-  inDanger: boolean;
+  in_danger: boolean;
   images: string[];
   spotId?: number;
 }
