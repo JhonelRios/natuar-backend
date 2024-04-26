@@ -6,9 +6,11 @@ import {
   // Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { AnimalsService } from './animals.service';
 import { CreateAnimalDto } from './dto/create-animal.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 // import { UpdateAnimalDto } from './dto/update-animal.dto';
 
 @Controller('animals')
@@ -21,6 +23,7 @@ export class AnimalsController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.animalsService.findAll();
   }
