@@ -6,9 +6,10 @@ import { TouristsModule } from './tourists/tourists.module';
 import { SpotsModule } from './spots/spots.module';
 
 import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [AnimalsModule, TouristsModule, SpotsModule, PrismaModule],
+  imports: [AnimalsModule, TouristsModule, SpotsModule, PrismaModule, AuthModule],
   controllers: [],
   providers: [],
 })

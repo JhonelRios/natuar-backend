@@ -25,6 +25,14 @@ export class TouristsService {
     });
   }
 
+  async findOneByEmail(email: string): Promise<Tourist> {
+    return this.prisma.tourist.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
+
   // async update(id: number, updateTouristDto: UpdateTouristDto) {
   //   return this.prisma.tourist.findUnique({
   //     where: {
