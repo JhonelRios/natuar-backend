@@ -1,1 +1,5 @@
-export class CreateTouristDto {}
+export class CreateTouristDto {
+  name: string;
+  password: string;
+  email: string;
+}

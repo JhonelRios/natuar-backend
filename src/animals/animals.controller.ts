@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  // Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { AnimalsService } from './animals.service';
 import { CreateAnimalDto } from './dto/create-animal.dto';
-import { UpdateAnimalDto } from './dto/update-animal.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+// import { UpdateAnimalDto } from './dto/update-animal.dto';
 
 @Controller('animals')
 export class AnimalsController {
@@ -13,6 +23,7 @@ export class AnimalsController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.animalsService.findAll();
   }
@@ -22,10 +33,10 @@ export class AnimalsController {
     return this.animalsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnimalDto: UpdateAnimalDto) {
-    return this.animalsService.update(+id, updateAnimalDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateAnimalDto: UpdateAnimalDto) {
+  //   return this.animalsService.update(+id, updateAnimalDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
