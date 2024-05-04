@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { SpotsService } from './spots.service';
 import { CreateSpotDto } from './dto/create-spot.dto';
+import { Animal } from '@prisma/client';
 // import { UpdateSpotDto } from './dto/update-spot.dto';
 
 @Controller('spots')
@@ -38,5 +39,10 @@ export class SpotsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.spotsService.remove(+id);
+  }
+
+  @Get(':id/animals')
+  findAllAnimalsBySportId(@Param('id') sportId: string): Promise<Animal[]> {
+    return this.spotsService.findAllAnimalsBySportId(+sportId);
   }
 }

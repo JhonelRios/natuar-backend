@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Spot } from '@prisma/client';
+import { Animal, Spot } from '@prisma/client';
 import { CreateSpotDto } from './dto/create-spot.dto';
 // import { UpdateSpotDto } from './dto/update-spot.dto';
 @Injectable()
@@ -39,5 +39,13 @@ export class SpotsService {
         id: id,
       },
     });
+  } 
+
+  async findAllAnimalsBySportId(sportId: number): Promise<Animal[]> {
+    const spot = await this.prisma.spot.findUnique({
+      where: { id: sportId },
+      include: { animals: true },
+    });
+    return spot.animals;
   }
 }
