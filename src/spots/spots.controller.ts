@@ -46,7 +46,7 @@ export class SpotsController {
   }
 
   @Get(':id/animals')
-  findAllAnimalsBySportId(@Param('id') sportId: string): Promise<Animal[]> {
-    return this.spotsService.findAllAnimalsBySportId(+sportId);
+  findAllAnimalsBySportId(@Param('id') spotId: string): Promise<Animal[]> {
+    return this.spotsService.findAllAnimalsBySpotId(+spotId);
   }
 }

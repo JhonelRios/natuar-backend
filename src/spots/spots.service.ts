@@ -56,9 +56,9 @@ export class SpotsService {
     });
   }
 
-  async findAllAnimalsBySportId(sportId: number): Promise<Animal[]> {
+  async findAllAnimalsBySpotId(spotId: number): Promise<Animal[]> {
     const spot = await this.prisma.spot.findUnique({
-      where: { id: sportId },
+      where: { id: spotId },
       include: { animals: true },
     });
     return spot.animals;
