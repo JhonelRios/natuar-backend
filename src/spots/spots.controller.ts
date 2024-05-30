@@ -6,9 +6,11 @@ import {
   // Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { SpotsService } from './spots.service';
 import { CreateSpotDto } from './dto/create-spot.dto';
+import { Animal } from '@prisma/client';
 // import { UpdateSpotDto } from './dto/update-spot.dto';
 
 @Controller('spots')
@@ -25,18 +27,26 @@ export class SpotsController {
     return this.spotsService.findAll();
   }
 
+  @Get('nearest')
+  findNearestLocation(@Query('lat') lat: string, @Query('lon') lon: string) {
+    return this.spotsService.findNearestLocation(
+      parseFloat(lat),
+      parseFloat(lon),
+    );
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.spotsService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateSpotDto: UpdateSpotDto) {
-  //   return this.spotsService.update(+id, updateSpotDto);
-  // }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.spotsService.remove(+id);
+  }
+
+  @Get(':id/animals')
+  findAllAnimalsBySportId(@Param('id') spotId: string): Promise<Animal[]> {
+    return this.spotsService.findAllAnimalsBySpotId(+spotId);
   }
 }
