@@ -25,6 +25,21 @@ export class SpotsService {
     });
   }
 
+  async findNearestLocation(lat: number, lon: number): Promise<Spot> {
+    const [location] = await this.prisma.$queryRaw<Spot[]>`
+      SELECT *, 
+            ST_Distance(
+              geography(ST_MakePoint(longitude, latitude)),
+              geography(ST_MakePoint(${lon}, ${lat}))
+            ) as distance
+      FROM "Spot"
+      ORDER BY distance ASC
+      LIMIT 1;
+    `;
+
+    return location;
+  }
+
   // async update(id: number, updateSpotDto: UpdateSpotDto) {
   //   return this.prisma.spot.findUnique({
   //     where: {
@@ -39,7 +54,7 @@ export class SpotsService {
         id: id,
       },
     });
-  } 
+  }
 
   async findAllAnimalsBySportId(sportId: number): Promise<Animal[]> {
     const spot = await this.prisma.spot.findUnique({
