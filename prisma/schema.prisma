@@ -60,6 +60,8 @@ model Animal {
   in_danger       Boolean
   images          String[]
   model_name      String
+  latitude        Float
+  longitude       Float
 
   spot             Spot?            @relation(fields: [spotId], references: [id])
   spotId           Int?
