@@ -3,4 +3,6 @@ export class CreateSpotDto {
   description: string;
   latitude: number;
   longitude: number;
+  picture: string;
+  images: string[];
 }
