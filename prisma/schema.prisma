@@ -47,11 +47,22 @@ model SeenAnimal {
 
 // Definición del modelo para la tabla "animals"
 model Animal {
-  id               Int              @id @default(autoincrement())
-  name             String
-  description      String
-  in_danger        Boolean
-  images           String[]
+  id              Int      @id @default(autoincrement())
+  name            String
+  scientific_name String
+  description     String
+  weigth          Int
+  height          Int
+  average_age     Int
+  habitat         String
+  diet            String
+  gestation       String
+  in_danger       Boolean
+  images          String[]
+  model_name      String
+  latitude        Float
+  longitude       Float
+
   spot             Spot?            @relation(fields: [spotId], references: [id])
   spotId           Int?
   // Agrega el campo de relación inversa en el modelo Animal
@@ -66,6 +77,8 @@ model Spot {
   description String
   latitude    Float
   longitude   Float
+  picture     String
+  images      String[]
   // Agrega el campo de relación inversa en el modelo Spot
   animals     Animal[]
 }
