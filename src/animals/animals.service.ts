@@ -27,6 +27,21 @@ export class AnimalsService {
     });
   }
 
+  async getFavoriteAnimals(userId: number) {
+    const favorites = await this.prisma.favoriteAnimal.findMany({
+      where: { touristId: userId },
+      include: { animal: true },
+    });
+
+    return favorites.map((fav) => fav.animal);
+  }
+
+  async markAsFavorite(userId: number, animalId: number) {
+    return this.prisma.favoriteAnimal.create({
+      data: { touristId: userId, animalId },
+    });
+  }
+
   // async update(id: number, updateAnimalDto: UpdateAnimalDto) {
   //   return this.prisma.animal.findUnique({
   //     where: {

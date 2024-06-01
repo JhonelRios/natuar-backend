@@ -7,13 +7,16 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { SpotsService } from './spots.service';
 import { CreateSpotDto } from './dto/create-spot.dto';
 import { Animal } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 // import { UpdateSpotDto } from './dto/update-spot.dto';
 
 @Controller('spots')
+@UseGuards(JwtAuthGuard)
 export class SpotsController {
   constructor(private readonly spotsService: SpotsService) {}
 
