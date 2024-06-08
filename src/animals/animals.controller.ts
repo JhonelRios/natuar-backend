@@ -34,6 +34,16 @@ export class AnimalsController {
     return this.animalsService.getFavoriteAnimals(Number(req.user.id));
   }
 
+  @Get(':id/favorite')
+  async getIsInFavorite(@Request() req, @Param('id') id: string) {
+    const isFavorite = await this.animalsService.getIsFavoriteAnimal(
+      +req.user.id,
+      +id,
+    );
+
+    return { isFavorite };
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.animalsService.findOne(+id);
@@ -49,8 +59,8 @@ export class AnimalsController {
   //   return this.animalsService.update(+id, updateAnimalDto);
   // }
 
-  @Delete(':id')
+  @Delete('favorite/:id')
   remove(@Param('id') id: string) {
-    return this.animalsService.remove(+id);
+    return this.animalsService.removeFavorite(+id);
   }
 }

@@ -42,6 +42,14 @@ export class AnimalsService {
     });
   }
 
+  async getIsFavoriteAnimal(userId: number, animalId: number) {
+    const animal = await this.prisma.favoriteAnimal.findFirst({
+      where: { touristId: userId, animalId },
+    });
+
+    return Boolean(animal);
+  }
+
   // async update(id: number, updateAnimalDto: UpdateAnimalDto) {
   //   return this.prisma.animal.findUnique({
   //     where: {
@@ -49,6 +57,11 @@ export class AnimalsService {
   //     },
   //   });
   // }
+  async removeFavorite(favoriteAnimalId: number) {
+    return this.prisma.favoriteAnimal.delete({
+      where: { id: favoriteAnimalId },
+    });
+  }
 
   async remove(id: number): Promise<Animal> {
     return this.prisma.animal.delete({
