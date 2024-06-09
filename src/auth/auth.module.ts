@@ -10,7 +10,7 @@ import { TouristsModule } from 'src/tourists/tourists.module';
   imports: [
     TouristsModule,
     JwtModule.register({
-      secret: 'supperSecret',
+      secret: `${process.env.JWT_SECRET}`,
       signOptions: { expiresIn: '1d' },
     }),
   ],

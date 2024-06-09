@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TouristsService } from 'src/tourists/tourists.service';
 import { Tourist } from '@prisma/client';
 import { CreateTouristDto } from 'src/tourists/dto/create-tourist.dto';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
@@ -45,5 +46,38 @@ export class AuthService {
     });
 
     return this.login(newTourist);
+  }
+
+  // Google
+  async loginWithGoogleToken(token: string) {
+    const googleClientId = process.env.GOOGLE_CLIENT_ID;
+    console.log(googleClientId);
+
+    const client = new OAuth2Client(googleClientId);
+
+    const response = await client.verifyIdToken({
+      idToken: token,
+      audience: googleClientId,
+    });
+
+    const payload = response.getPayload();
+
+    const existingUser = await this.touristsService.findOneByEmail(
+      payload.email,
+    );
+
+    if (!existingUser) {
+      const hashedPassword = await bcrypt.hash(payload.email, 10);
+
+      const newTourist = await this.touristsService.create({
+        email: payload.email,
+        name: payload.name,
+        password: hashedPassword,
+      });
+
+      return this.login(newTourist);
+    } else {
+      return this.login(existingUser);
+    }
   }
 }
