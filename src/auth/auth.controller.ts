@@ -17,4 +17,10 @@ export class AuthController {
   async register(@Body() createTouristDto: CreateTouristDto) {
     return this.authService.register(createTouristDto);
   }
+
+  // Google
+  @Post('google')
+  async loginWithGoogle(@Body() { token }: { token: string }) {
+    return this.authService.loginWithGoogleToken(token);
+  }
 }
