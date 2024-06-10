@@ -57,9 +57,13 @@ export class AnimalsService {
   //     },
   //   });
   // }
-  async removeFavorite(favoriteAnimalId: number) {
+  async removeFavorite(animalId: number) {
+    const favoriteAnimalMatch = await this.prisma.favoriteAnimal.findFirst({
+      where: { animalId },
+    });
+
     return this.prisma.favoriteAnimal.delete({
-      where: { id: favoriteAnimalId },
+      where: { id: favoriteAnimalMatch.id },
     });
   }
 
