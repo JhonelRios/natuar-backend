@@ -5,6 +5,7 @@ import { TouristsService } from 'src/tourists/tourists.service';
 import { Tourist } from '@prisma/client';
 import { CreateTouristDto } from 'src/tourists/dto/create-tourist.dto';
 import { OAuth2Client } from 'google-auth-library';
+import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -79,5 +80,25 @@ export class AuthService {
     } else {
       return this.login(existingUser);
     }
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto) {
+    const existingUser = await this.touristsService.findOneByEmail(
+      changePasswordDto.email,
+    );
+
+    if (!existingUser) throw new BadRequestException('User does not exists');
+
+    const hashedPassword = await bcrypt.hash(
+      changePasswordDto.new_password,
+      10,
+    );
+
+    const updatedTourist = await this.touristsService.update(existingUser.id, {
+      ...existingUser,
+      password: hashedPassword,
+    });
+
+    return this.login(updatedTourist);
   }
 }
