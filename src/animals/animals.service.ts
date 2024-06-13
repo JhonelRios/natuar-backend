@@ -46,6 +46,12 @@ export class AnimalsService {
   }
 
   async markAsSeen(userId: number, animalId: number) {
+    const seenAnimal = await this.prisma.seenAnimal.findFirst({
+      where: { animalId },
+    });
+
+    if (seenAnimal) return;
+
     return this.prisma.seenAnimal.create({
       data: { touristId: userId, animalId },
     });
