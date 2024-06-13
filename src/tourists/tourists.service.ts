@@ -18,11 +18,15 @@ export class TouristsService {
   }
 
   async findOne(id: number): Promise<Tourist> {
-    return this.prisma.tourist.findUnique({
+    const user = await this.prisma.tourist.findUnique({
       where: {
         id: id,
       },
     });
+
+    delete user.password;
+
+    return user;
   }
 
   async findOneByEmail(email: string): Promise<Tourist> {
