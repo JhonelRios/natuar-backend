@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { TouristsService } from './tourists.service';
 import { CreateTouristDto } from './dto/create-tourist.dto';
@@ -26,6 +27,11 @@ export class TouristsController {
   @Get()
   findAll() {
     return this.touristsService.findAll();
+  }
+
+  @Get('me')
+  findMe(@Req() req) {
+    return this.touristsService.findOne(+req.user.id);
   }
 
   @Get(':id')
