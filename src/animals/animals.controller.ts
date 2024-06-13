@@ -29,6 +29,11 @@ export class AnimalsController {
     return this.animalsService.findAll();
   }
 
+  @Get('seen')
+  findSeen(@Request() req) {
+    return this.animalsService.getSeenAnimals(+req.user.id);
+  }
+
   @Get('favorites')
   findFavorites(@Request() req) {
     return this.animalsService.getFavoriteAnimals(Number(req.user.id));
@@ -47,6 +52,11 @@ export class AnimalsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.animalsService.findOne(+id);
+  }
+
+  @Post(':id/seen')
+  markAsSeen(@Request() req, @Param('id') id: string) {
+    return this.animalsService.markAsSeen(Number(req.user.id), +id);
   }
 
   @Post(':id/favorite')

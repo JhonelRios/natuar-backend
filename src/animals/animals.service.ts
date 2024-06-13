@@ -36,6 +36,21 @@ export class AnimalsService {
     return favorites.map((fav) => fav.animal);
   }
 
+  async getSeenAnimals(userId: number) {
+    const animals = await this.prisma.seenAnimal.findMany({
+      where: { touristId: userId },
+      include: { animal: true },
+    });
+
+    return animals.map((fav) => fav.animal);
+  }
+
+  async markAsSeen(userId: number, animalId: number) {
+    return this.prisma.seenAnimal.create({
+      data: { touristId: userId, animalId },
+    });
+  }
+
   async markAsFavorite(userId: number, animalId: number) {
     return this.prisma.favoriteAnimal.create({
       data: { touristId: userId, animalId },
