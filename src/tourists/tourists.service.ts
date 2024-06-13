@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTouristDto } from './dto/create-tourist.dto';
-// import { UpdateTouristDto } from './dto/update-tourist.dto';
+import { UpdateTouristDto } from './dto/update-tourist.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Tourist } from '@prisma/client';
+
 @Injectable()
 export class TouristsService {
   constructor(private prisma: PrismaService) {}
@@ -37,13 +38,20 @@ export class TouristsService {
     });
   }
 
-  // async update(id: number, updateTouristDto: UpdateTouristDto) {
-  //   return this.prisma.tourist.findUnique({
-  //     where: {
-  //       id: id,
-  //     },
-  //   });
-  // }
+  async update(id: number, updateTouristDto: UpdateTouristDto) {
+    const user = await this.prisma.tourist.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!user) throw new NotFoundException('User does not exist');
+
+    return this.prisma.tourist.update({
+      where: { id },
+      data: updateTouristDto,
+    });
+  }
 
   async remove(id: number): Promise<Tourist> {
     return this.prisma.tourist.delete({
