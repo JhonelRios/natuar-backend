@@ -16,7 +16,7 @@ export class AnimalsService {
   }
 
   async findAll(): Promise<Animal[]> {
-    return this.prisma.animal.findMany();
+    return this.prisma.animal.findMany({ where: { status: 1 } });
   }
 
   async findOne(id: number): Promise<Animal> {

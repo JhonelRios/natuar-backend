@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Animal" ADD COLUMN     "status" INTEGER NOT NULL DEFAULT 1;
