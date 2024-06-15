@@ -62,6 +62,7 @@ model Animal {
   model_name      String
   latitude        Float
   longitude       Float
+  status          Int      @default(1)
 
   spot             Spot?            @relation(fields: [spotId], references: [id])
   spotId           Int?
