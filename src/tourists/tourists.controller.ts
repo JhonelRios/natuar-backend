@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Req,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TouristsService } from './tourists.service';
 import { CreateTouristDto } from './dto/create-tourist.dto';
@@ -20,6 +22,7 @@ export class TouristsController {
   constructor(private readonly touristsService: TouristsService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() createTouristDto: CreateTouristDto) {
     return this.touristsService.create(createTouristDto);
   }

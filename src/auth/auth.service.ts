@@ -52,7 +52,6 @@ export class AuthService {
   // Google
   async loginWithGoogleToken(token: string) {
     const googleClientId = process.env.GOOGLE_CLIENT_ID;
-    console.log(googleClientId);
 
     const client = new OAuth2Client(googleClientId);
 

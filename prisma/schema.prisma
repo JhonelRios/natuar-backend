@@ -29,7 +29,7 @@ model Tourist {
 model FavoriteAnimal {
   id            Int      @id @default(autoincrement())
   creation_date DateTime @default(now())
-  tourist       Tourist  @relation(fields: [touristId], references: [id])
+  tourist       Tourist  @relation(fields: [touristId], references: [id], onDelete: Cascade)
   touristId     Int
   animal        Animal   @relation(fields: [animalId], references: [id])
   animalId      Int
@@ -39,7 +39,7 @@ model FavoriteAnimal {
 model SeenAnimal {
   id            Int      @id @default(autoincrement())
   creation_date DateTime @default(now())
-  tourist       Tourist  @relation(fields: [touristId], references: [id])
+  tourist       Tourist  @relation(fields: [touristId], references: [id], onDelete: Cascade)
   touristId     Int
   animal        Animal   @relation(fields: [animalId], references: [id])
   animalId      Int
